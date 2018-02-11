@@ -23,10 +23,10 @@ for(var i = 0;i < list.length;i++){call(list[i],list,i)};
 }
 UltraLang.prototype.set = function (v){
 if(this.type === "element"){UltraLang.forAll(this.content,function (elem){elem.innerHTML = v})};
-if(this.type === "gpioPin"){this.value = v};
+if(this.type === "gpioPin"){this.content.value = v};
 }
 UltraLang.prototype.get = function (){
 if(this.type === "element"){var all = "";UltraLang.forAll(this.content,function (elem){all += elem.innerHTML});return all};
-if(this.type === "gpio"){return this.value};
-if(this.type.endsWith("Request")){return this.response}
+if(this.type === "gpio"){return this.content.value};
+if(this.type.endsWith("Request")){return this.content.response}
 }
