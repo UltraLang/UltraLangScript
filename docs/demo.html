@@ -1,0 +1,16 @@
+-------
+title: UltraLangScript Web Demo
+permalink: /webdemo
+-------
+
+<script src="https://raw.githubusercontent.com/UltraLang/UltraLangScript/master/main.js"></script>
+<script>
+u(window).on("load",function (){// Run this code on load
+var body = u("body");// Store the body tag in a variable
+body.set("This is an UltraLangScript demo. Click the background to try it. View page source to see the code.");// Add page content
+body.style({backgroundColor: "red", color: "white"});// Set the color of stuff
+body.on("click",function (){// Do stuff when clicked
+body.style({"background-color":"blue"})// Yes, you can use both camelCase and hyphen-notation for CSS
+});// Exit the click handler
+});// Exit the load handler
+</script>
