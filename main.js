@@ -16,7 +16,7 @@ this.content = [document.getElementById(s.slice(1))];
 var testelem = document.createElement("div");testelem.innerHTML = s;this.content = testelem.children;
 }else{
 this.content = document.getElementsByTagName(s);
-}}}else{this.content = [s];this.type = "element"}
+}}}else if(Array.isArray(s)){this.content = s;this.type = "element"}else{this.content = [s];this.type = "element"}
 }
 function u(selector){return new UltraLang(selector)}
 UltraLang.forAll = function (list,call){
@@ -52,4 +52,21 @@ if(styles[i].indexOf("-") > -1){
 var style = styles[i].replace(/(-)[a-z]/g,function (m){return m.charAt(1).toUpperCase()});
 }else{style = styles[i]};
 UltraLang.forAll(this.content,function (elem){elem.style[style] = s[styles[i]]})
-}}}
+}}};
+UltraLang.prototype.add = function (c){
+if(c.startsWith(".")){UltraLang.forAll(this.content,function (elem){elem.classList.add(c.slice(1))})}
+};
+UltraLang.prototype.remove = function (c){
+if(c.startsWith(".")){UltraLang.forAll(this.content,function (elem){elem.classList.remove(c.slice(1))})}
+};
+UltraLang.prototype.exists = function (c){
+if(c.startsWith(".")){return this.content[0].classList.contains(c.slice(1))}
+};
+UltraLang.prototype.toggle = function (c){
+if(c.startsWith(".")){UltraLang.forAll(this.content,function (elem){elem.classList.toggle(c.slice(1))})}
+};
+UltraLang.prototype.search = function (q){
+var elems = [];
+UltraLang.forAll(this.content,function (elem){if(elem.innerText.indexOf(q) > -1){elems.push(elem)}});
+return new UltraLang(elems)
+};
