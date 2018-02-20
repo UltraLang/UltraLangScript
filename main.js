@@ -54,7 +54,8 @@ var style = styles[i].replace(/(-)[a-z]/g,function (m){return m.charAt(1).toUppe
 UltraLang.forAll(this.content,function (elem){elem.style[style] = s[styles[i]]})
 }}};
 UltraLang.prototype.add = function (c){
-if(c.startsWith(".")){UltraLang.forAll(this.content,function (elem){elem.classList.add(c.slice(1))})}
+if(typeof c === "string"){UltraLang.forAll(this.content,function (elem){elem.classList.add(c.slice(1))})}
+if(c.content){UltraLang.forAll(c.content,function (elem){this.content[0].appendChild(elem)})}
 };
 UltraLang.prototype.remove = function (c){
 if(c.startsWith(".")){UltraLang.forAll(this.content,function (elem){elem.classList.remove(c.slice(1))})}
