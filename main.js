@@ -27,7 +27,7 @@ if(this.type === "element"){if(a){this.content[0].setAttrtribute(v,a)}else{Ultra
 if(this.type === "gpioPin"){this.content.value = v};
 }
 UltraLang.prototype.get = function (a){
-if(this.type === "element"){if(a){if(typeof a === "string"){return this.content[0].getAttribute(a)}else{return new UltraLang(this.content[a])}}else{var all = "";UltraLang.forAll(this.content,function (elem){all += elem.innerHTML});return all}};
+if(this.type === "element"){if(a){if(typeof a === "string"){return this.content[0].getAttribute(a)}else{return new UltraLang(this.content[a])}}else{return this.content[0].innerHTML}};
 if(this.type === "gpio"){return this.content.value};
 if(this.type.endsWith("Request")){return this.content.response}
 }
