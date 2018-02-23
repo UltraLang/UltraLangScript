@@ -1,4 +1,4 @@
-> **New!** Docs are now avaliable [here](https://github.com/UltraLang/UltraLangScript/wiki), **Be sure to check Them out!!
+> **New!** Docs are now avaliable [here](https://github.com/UltraLang/UltraLangScript/wiki)
 ### What is UltraLangScript?
 Like UltraLang, UltraLangScript's purpose is to let you learn one language that runs in many places. UltraLangScript is a JavaScript library, but it is still eventually going to run on:
 - Websites
