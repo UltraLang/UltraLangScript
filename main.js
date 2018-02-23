@@ -1,9 +1,11 @@
+// Define some objects for use later
 function UltraPin(pin){
 this.id = pin;this.value = 0;
 }
 function UltraRequest(url,isExternal){
 this.url = url;this.external = isExternal;this.response = {text: "", json: null, blob: null, formData: null, arrayBuffer: null};
 }
+// Main selector code
 function UltraLang(s){
 if(typeof s === "string"){
 if(s.indexOf(":") > 1 && s.indexOf(":") < 10){if(s.toLowerCase().startsWith("gpio:")){this.type = "gpioPin";this.content = new UltraPin(s.slice(5))}else if(s.indexOf(":") > 1 && s.indexOf(":") < 10){this.type = "externalRequest";this.content = new UltraRequest(s,true)}};
@@ -18,23 +20,30 @@ var testelem = document.createElement("div");testelem.innerHTML = s;this.content
 this.content = document.getElementsByTagName(s);
 }}}else if(Array.isArray(s)){this.content = s;this.type = "element"}else{this.content = [s];this.type = "element"}
 }
+// Define the u() method
 function u(selector){return new UltraLang(selector)}
+// Thing used in several other methods
 UltraLang.forAll = function (list,call){
 for(var i = 0;i < list.length;i++){call(list[i],list,i)};
 }
+// Set innerHTML (working) or GPIO pin value (future)
 UltraLang.prototype.set = function (v,a){
 if(this.type === "element"){if(a){this.content[0].setAttrtribute(v,a)}else{UltraLang.forAll(this.content,function (elem){elem.innerHTML = v})}};
 if(this.type === "gpioPin"){this.content.value = v};
 }
+// Get innerHTML (working), GPIO pin value (future) or request response (soon)
 UltraLang.prototype.get = function (a){
 if(this.type === "element"){if(a || a === 0){if(typeof a === "string"){return this.content[0].getAttribute(a)}else{return new UltraLang(this.content[a])}}else{return this.content[0].innerHTML}};
 if(this.type === "gpio"){return this.content.value};
 if(this.type.endsWith("Request")){return this.content.response}
 }
+// Add event listener
 UltraLang.prototype.on = function (e,c){
 if(this.type === "element"){UltraLang.forAll(this.content,function (elem){elem.addEventListener(e,c)})};
 }
+// Css
 UltraLang.prototype.style = function (s){
+// Return object of properties and values
 if(Array.isArray(s)){
 var styleObj = {};
 for(var i = 0;i < s.length;i++){
@@ -42,9 +51,11 @@ var style = s[i].replace(/(-)[a-z]/g,function (m){return m.charAt(1).toUpperCase
 styleObj[s[i]] = this.content[0].style[style];
 };
 return styleObj;
+// Get property value
 }else if(typeof s === "string"){
 var s = s.replace(/(-)[a-z]/g,function (m){return m.charAt(1).toUpperCase()});
 return this.content[0].style[s];
+// Set properties and values
 }else{
 var styles = Object.keys(s);
 for(var i = 0;i < styles.length;i++){
@@ -53,19 +64,24 @@ var style = styles[i].replace(/(-)[a-z]/g,function (m){return m.charAt(1).toUppe
 }else{style = styles[i]};
 UltraLang.forAll(this.content,function (elem){elem.style[style] = s[styles[i]]})
 }}};
+// Add class or child (both working)
 UltraLang.prototype.add = function (c){
 if(typeof c === "string"){UltraLang.forAll(this.content,function (elem){elem.classList.add(c.slice(1))})}
 if(c.content){UltraLang.forAll(c.content,function (elem){this.content[0].appendChild(elem)})}
 };
+// Remove class
 UltraLang.prototype.remove = function (c){
 if(c.startsWith(".")){UltraLang.forAll(this.content,function (elem){elem.classList.remove(c.slice(1))})}
 };
+// Check if class exists
 UltraLang.prototype.exists = function (c){
 if(c.startsWith(".")){return this.content[0].classList.contains(c.slice(1))}
 };
+// Toggle a class
 UltraLang.prototype.toggle = function (c){
 if(c.startsWith(".")){UltraLang.forAll(this.content,function (elem){elem.classList.toggle(c.slice(1))})}
 };
+// Search (might work, test if possible)
 UltraLang.prototype.search = function (q){
 var elems = [];
 UltraLang.forAll(this.content,function (elem){if(elem.innerText.indexOf(q) > -1){elems.push(elem)}});
