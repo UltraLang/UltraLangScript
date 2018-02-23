@@ -3,7 +3,7 @@ function UltraPin(pin){
 this.id = pin;this.value = 0;
 }
 function UltraRequest(url,isExternal){
-this.url = url;this.external = isExternal;this.response = {text: "", json: null, blob: null, formData: null, arrayBuffer: null};
+this.url = url;this.external = isExternal;this.options = {method: "GET"};this.response = null;this.status = -1;this.success = null;this.failure = null
 }
 // Main selector code
 function UltraLang(s){
@@ -30,16 +30,18 @@ for(var i = 0;i < list.length;i++){call(list[i],list,i)};
 UltraLang.prototype.set = function (v,a){
 if(this.type === "element"){if(a){this.content[0].setAttrtribute(v,a)}else{UltraLang.forAll(this.content,function (elem){elem.innerHTML = v})}};
 if(this.type === "gpioPin"){this.content.value = v};
+if(this.type.endsWith("Request")){if(a){this.content.url = v;this.content.options = a;}else{this.content.options = v;}}
 }
-// Get innerHTML (working), GPIO pin value (future) or request response (soon)
+// Get innerHTML (working), GPIO pin value (future) or request response (somebody please test)
 UltraLang.prototype.get = function (a){
 if(this.type === "element"){if(a || a === 0){if(typeof a === "string"){return this.content[0].getAttribute(a)}else{return new UltraLang(this.content[a])}}else{return this.content[0].innerHTML}};
 if(this.type === "gpio"){return this.content.value};
 if(this.type.endsWith("Request")){return this.content.response}
 }
-// Add event listener
+// Add event listener (working) or request listener (please test)
 UltraLang.prototype.on = function (e,c){
 if(this.type === "element"){UltraLang.forAll(this.content,function (elem){elem.addEventListener(e,c)})};
+if(this.type.endsWith("Request")){if(e === "success"){this.content.success = c}else if(e.startsWith("fail")){this.content.failure = c}}
 }
 // Css
 UltraLang.prototype.style = function (s){
@@ -87,3 +89,7 @@ var elems = [];
 UltraLang.forAll(this.content,function (elem){if(elem.innerText.indexOf(q) > -1){elems.push(elem)}});
 return new UltraLang(elems)
 };
+UltraLang.prototype.send = function (){
+fetch(this.content.url,this.content.options).then(function (r){this.content.response = r;this.content.success(r);}).catch(function (r){console.error("u(): Failed to fetch");this.content.response = r;this.content.failure(r);})
+}
+
