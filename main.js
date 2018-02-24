@@ -44,7 +44,7 @@ if(this.type === "element"){UltraLang.forAll(this.content,function (elem){elem.a
 if(this.type.endsWith("Request")){if(e === "success"){this.content.success = c}else if(e.startsWith("fail")){this.content.failure = c}}
 }
 // Css
-UltraLang.prototype.style = function (s){
+UltraLang.prototype.style = function (s,v){
 // Return object of properties and values
 if(Array.isArray(s)){
 var styleObj = {};
@@ -53,10 +53,15 @@ var style = s[i].replace(/(-)[a-z]/g,function (m){return m.charAt(1).toUpperCase
 styleObj[s[i]] = this.content[0].style[style];
 };
 return styleObj;
-// Get property value
 }else if(typeof s === "string"){
+if(v){
+  // Set single property
 var s = s.replace(/(-)[a-z]/g,function (m){return m.charAt(1).toUpperCase()});
-return this.content[0].style[s];
+this.content[0].style[s] = v;
+}else{
+  // Get property value
+var s = s.replace(/(-)[a-z]/g,function (m){return m.charAt(1).toUpperCase()});
+return this.content[0].style[s]}
 // Set properties and values
 }else{
 var styles = Object.keys(s);
