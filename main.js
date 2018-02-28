@@ -98,3 +98,25 @@ UltraLang.prototype.send = function (){
 fetch(this.content.url,this.content.options).then(function (r){this.content.response = r;this.content.success(r);}).catch(function (r){console.error("u(): Failed to fetch");this.content.response = r;this.content.failure(r);})
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
