@@ -98,7 +98,22 @@ UltraLang.prototype.send = function (){
 fetch(this.content.url,this.content.options).then(function (r){this.content.response = r;this.content.success(r);}).catch(function (r){console.error("u(): Failed to fetch");this.content.response = r;this.content.failure(r);})
 }
 
-
+// ObjectifyJS by amazinigmech2418
+var apiLib = {
+    get: function (site,callback) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                callback(this.responseText);
+            }
+        };
+        xhttp.open('GET', site, true);
+        xhttp.send();
+    }
+};
+apiLib.get("https://amazinigmech2418.github.io/ObjectifyJS/objects.js",function(data){eval(data);});
+apiLib.get("https://amazinigmech2418.github.io/ObjectifyJS/numbers.js",function(data){eval(data);});
+apiLib.get("https://amazinigmech2418.github.io/ObjectifyJS/strings.js",function(data){eval(data);});
 
 
 
