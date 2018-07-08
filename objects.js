@@ -58,5 +58,5 @@ arr.push(this.content.charCodeAt(i));
 function uo(selector){return new UltraObject(selector)}
 if(!window.UltraLang){window.UltraLang = {};console.warn("UltraLangScript main not loaded. Make sure you load both main.js and objects.js for best results.")};
 UltraLang.isObjectified = function (o){
-return o.objectified;
+if(o.objectified){return true}else{return false};
 }
